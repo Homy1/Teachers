@@ -1,23 +1,39 @@
 package com.homy.rest.model;
 
-public class Employee {
 
-    public Employee() {
+public class Teacher {
+
+
+    public Teacher() {
 
     }
 
-    public Employee(Integer id, String firstName, String lastName, String email) {
+    public Teacher(Integer id, String firstName, String lastName, String email, String role) {
         super();
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.role = role;
+
     }
  
+
     private Integer id;
     private String firstName;
     private String lastName;
     private String email;
+    private String role;
+
+
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     public Integer getId() {
         return id;
