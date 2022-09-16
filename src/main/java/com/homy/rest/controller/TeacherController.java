@@ -24,7 +24,6 @@ import java.util.Optional;
 
 //@CrossOrigin(origins = "http://localhost:3000") //open for specific port
 @CrossOrigin() // open for all port
-
 @RestController
 public class TeacherController {
 
