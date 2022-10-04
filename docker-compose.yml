@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  mysqldb:
+    platform: linux/x86_64
+    image: mysql:8.0.20
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      - MYSQL_ROOT_PASSWORD=RMITtest
+      - MYSQL_DATABASE=teachers
+    ports:
+      - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
+
+    volumes:
+      - db:/var/lib/mysql
+  app:
+    depends_on:
+      - mysqldb
+    build: ./springbootrestdemo
+    restart: on-failure
+    env_file: ./.env
+    ports:
+      - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver"
+        "spring.datasource.url"  : "jdbc:mysql://mysqldb:3306/teachers?serverTimezone=Australia/Sydney",
+        "spring.datasource.username" : "root",
+        "spring.datasource.password" : "RMITtest",
+        "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL5Dialect",
+        "spring.jpa.hibernate.ddl-auto" : "update"
+        "spring.logging.level.org.hibernate.SQL=debug"
+        "spring.jpa.show-sql=true"
+      }'
+    volumes:
+      - .m2:/root/.m2
+    stdin_open: true
+    tty: true
+
+volumes:
+  db:
